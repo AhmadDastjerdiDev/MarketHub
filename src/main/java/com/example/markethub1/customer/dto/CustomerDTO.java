@@ -20,4 +20,6 @@ public class CustomerDTO {
     private String address;
     private String postalCode;
     private List myFavorites;
+
+
 }
