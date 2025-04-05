@@ -19,7 +19,7 @@ public class CustomerDTO {
     private Date birthday;
     private String address;
     private String postalCode;
-    private List myFavorites;
+    //private List myFavorites;
 
 
 }
