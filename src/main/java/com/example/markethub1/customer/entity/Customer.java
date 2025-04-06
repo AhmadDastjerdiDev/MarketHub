@@ -15,11 +15,11 @@ import java.util.Date;
 @Table(name = "tbl_customer")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "c_id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "c_customer_id")
+    private Long customerId;
 
-    @Column(name = "c_fullName")
+    @Column(name = "c_full_name")
     private String fullName;
 
     @Column(name = "c_SNS")
