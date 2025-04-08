@@ -1,6 +1,5 @@
 package com.example.markethub1.Product.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

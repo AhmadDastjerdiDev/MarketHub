@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDTO {
+    private Long customerId;
     private String fullName;
     private String SNS;
     private String phoneNumber;
@@ -20,6 +21,5 @@ public class CustomerDTO {
     private String address;
     private String postalCode;
     //private List myFavorites;
-
 
 }

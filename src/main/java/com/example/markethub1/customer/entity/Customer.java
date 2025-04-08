@@ -25,7 +25,7 @@ public class Customer {
     @Column(name = "c_SNS")
     private String SNS;
 
-    @Column(name = "c_phoneMumber")
+    @Column(name = "c_phone_number")
     private String phoneNumber;
 
     @Column(name = "c_email")
@@ -40,7 +40,7 @@ public class Customer {
     @Column(name = "c_address")
     private String address;
 
-    @Column(name = "c_postalCode")
+    @Column(name = "c_postal_code")
     private String postalCode;
 
 }
