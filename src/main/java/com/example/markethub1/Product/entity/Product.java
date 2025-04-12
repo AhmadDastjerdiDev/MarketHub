@@ -24,7 +24,6 @@ public class Product {
     @Column(name = "c_product_type")
     private String productType;
 
-
     //private String producer;
 
     @Column(name = "c_price")
