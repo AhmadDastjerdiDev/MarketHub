@@ -14,3 +14,6 @@ MarketHub is a backend project for an e-commerce store built with Java, Spring, 
 - Java 11+
 - Maven (for dependency management)
 - PostgreSQL (for data storage)
+
+## In Progress 
+This project is still under development, and more features and capabilities are being designed. New updates will be released soon.
