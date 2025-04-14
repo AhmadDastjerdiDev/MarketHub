@@ -9,6 +9,6 @@ public interface ProductService {
     public void saveProduct(ProductDTO productDTO);
     public List<ProductDTO> getAllProducts();
     public ProductDTO getProductById(Long productId);
-    public void updateProduct(Long productId, ProductDTO productDTO);
+    public ProductDTO updateProduct(Long productId, ProductDTO productDTO);
     public void deleteProduct(Long productId);
 }

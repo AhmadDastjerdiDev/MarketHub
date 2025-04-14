@@ -46,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomer(Long customerId, CustomerDTO customerDTO) {
+    public CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO) {
         Optional<Customer> optionalCustomer = customerRepo.findById(customerId);
         if (optionalCustomer.isPresent()) {
             Customer updatingCustomer = optionalCustomer.get();
@@ -59,8 +59,11 @@ public class CustomerServiceImpl implements CustomerService {
             updatingCustomer.setPhoneNumber(customerDTO.getPhoneNumber());
             updatingCustomer.setPostalCode(customerDTO.getPostalCode());
             customerRepo.save(updatingCustomer);
-        } else
+            return modelMapper.map(updatingCustomer, CustomerDTO.class);
+        } else {
             System.out.println("The Id Not Found!!!");
+            return null;
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.markethub1.customer.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,6 +36,7 @@ public class Customer {
     private String job;
 
     @Column(name = "c_birthday")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date birthday;
 
     @Column(name = "c_address")

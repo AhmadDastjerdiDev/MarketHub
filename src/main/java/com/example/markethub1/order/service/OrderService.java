@@ -8,6 +8,6 @@ public interface OrderService {
     public void saveOrder(OrderDTO orderDTO);
     public List<OrderDTO> getAllOrders();
     public OrderDTO getOrderById(Long orderId);
-    public void updateOrder(Long orderId, OrderDTO orderDTO);
+    public OrderDTO updateOrder(Long orderId, OrderDTO orderDTO);
     public void deleteOrder(Long orderId);
 }

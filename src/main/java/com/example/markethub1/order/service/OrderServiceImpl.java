@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public void updateOrder(Long orderId, OrderDTO orderDTO) {
+    public OrderDTO updateOrder(Long orderId, OrderDTO orderDTO) {
         Optional<Order> optionalOrder = orderRepo.findById(orderId);
         if (optionalOrder.isPresent()){
             Order updatingOrder = optionalOrder.get();
@@ -50,9 +50,12 @@ public class OrderServiceImpl implements OrderService{
             updatingOrder.setShippingCost(orderDTO.getShippingCost());
             updatingOrder.setTotalPayable(orderDTO.getTotalPayable());
             orderRepo.save(updatingOrder);
+            return modelMapper.map(updatingOrder, OrderDTO.class);
         }
-        else
+        else {
             System.out.println("This Id Not Found!!!");
+            return null;
+        }
     }
 
     @Override

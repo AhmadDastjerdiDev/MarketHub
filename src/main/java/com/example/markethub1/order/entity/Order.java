@@ -1,6 +1,7 @@
 package com.example.markethub1.order.entity;
 
 import com.example.markethub1.customer.entity.Customer;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class Order{
     private Long orderId;
 
     @Column(name = "c_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date date;
 
     @Column(name = "c_order_code")

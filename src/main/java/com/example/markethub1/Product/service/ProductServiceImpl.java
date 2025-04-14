@@ -41,17 +41,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void updateProduct(Long productId, ProductDTO productDTO) {
+    public ProductDTO updateProduct(Long productId, ProductDTO productDTO) {
         Optional<Product> optionalProduct = productRepo.findById(productId);
-        if (optionalProduct.isPresent()){
+        if (optionalProduct.isPresent()) {
             Product updatingProduct = optionalProduct.get();
             updatingProduct.setProductName(productDTO.getProductName());
             updatingProduct.setProductType(productDTO.getProductType());
             updatingProduct.setPrice(productDTO.getPrice());
             productRepo.save(updatingProduct);
-        }
-        else
+            return modelMapper.map(updatingProduct, ProductDTO.class);
+        } else {
             System.out.println("This Id Not Found!!!");
+            return null;
+        }
     }
 
     @Override
