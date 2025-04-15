@@ -1,5 +1,6 @@
 package com.example.markethub1.product.entity;
 
+import com.example.markethub1.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,9 @@ public class Product {
     @Column(name = "c_product_id")
     private Long productId;
 
+    @Column(name = "c_customer_id")
+    private Long customerId;
+
     @Column(name = "c_product_name")
     private String productName;
 
@@ -29,4 +33,7 @@ public class Product {
     @Column(name = "c_price")
     private Long price;
 
+    @ManyToOne
+    @JoinColumn(name = "c_order_id")
+    private Order order;
 }

@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService{
             updatingOrder.setOrderCode(orderDTO.getOrderCode());
             updatingOrder.setDate(orderDTO.getDate());
             updatingOrder.setScore(orderDTO.getScore());
-            updatingOrder.setReceiver(orderDTO.getReceiver());
+            //updatingOrder.setReceiver(orderDTO.getReceiver());
             updatingOrder.setShippingCost(orderDTO.getShippingCost());
             updatingOrder.setTotalPayable(orderDTO.getTotalPayable());
             orderRepo.save(updatingOrder);
