@@ -1,7 +1,6 @@
-package com.example.markethub1.Product.service;
+package com.example.markethub1.product.service;
 
-import com.example.markethub1.Product.dto.ProductDTO;
-import com.example.markethub1.order.dto.OrderDTO;
+import com.example.markethub1.product.dto.ProductDTO;
 
 import java.util.List;
 

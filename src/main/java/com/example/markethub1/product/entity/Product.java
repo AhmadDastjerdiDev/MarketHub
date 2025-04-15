@@ -1,4 +1,4 @@
-package com.example.markethub1.Product.entity;
+package com.example.markethub1.product.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

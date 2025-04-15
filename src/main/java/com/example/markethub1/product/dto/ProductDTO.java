@@ -1,4 +1,4 @@
-package com.example.markethub1.Product.dto;
+package com.example.markethub1.product.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

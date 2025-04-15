@@ -1,8 +1,8 @@
-package com.example.markethub1.Product.service;
+package com.example.markethub1.product.service;
 
-import com.example.markethub1.Product.dto.ProductDTO;
-import com.example.markethub1.Product.entity.Product;
-import com.example.markethub1.Product.repository.ProductRepo;
+import com.example.markethub1.product.dto.ProductDTO;
+import com.example.markethub1.product.entity.Product;
+import com.example.markethub1.product.repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
