@@ -1,10 +1,12 @@
-package com.example.markethub1.Product.entity;
+package com.example.markethub1.product.entity;
 
+import com.example.markethub1.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +20,9 @@ public class Product {
     @Column(name = "c_product_id")
     private Long productId;
 
+    @Column(name = "c_customer_id")
+    private Long customerId;
+
     @Column(name = "c_product_name")
     private String productName;
 
@@ -29,4 +34,6 @@ public class Product {
     @Column(name = "c_price")
     private Long price;
 
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders;
 }

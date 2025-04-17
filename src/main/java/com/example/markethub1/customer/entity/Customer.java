@@ -1,7 +1,11 @@
 package com.example.markethub1.customer.entity;
 
+import com.example.markethub1.order.entity.Order;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 
 import java.util.Date;
@@ -35,6 +39,7 @@ public class Customer {
     private String job;
 
     @Column(name = "c_birthday")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date birthday;
 
     @Column(name = "c_address")
@@ -42,5 +47,9 @@ public class Customer {
 
     @Column(name = "c_postal_code")
     private String postalCode;
+
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 
 }

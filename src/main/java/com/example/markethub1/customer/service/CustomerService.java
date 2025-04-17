@@ -8,7 +8,7 @@ public interface CustomerService {
     public List<CustomerDTO> getAllCustomers();
     public CustomerDTO getCustomerById(Long customerId);
     public void saveCustomer(CustomerDTO customerDTO);
-    public void updateCustomer(Long customerId, CustomerDTO customerDTO);
+    public CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO);
     public void deleteCustomer(Long customerId);
 
 }

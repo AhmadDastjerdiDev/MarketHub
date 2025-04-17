@@ -1,8 +1,11 @@
 package com.example.markethub1.order.entity;
 
 import com.example.markethub1.customer.entity.Customer;
+import com.example.markethub1.product.entity.Product;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 import java.util.Date;
 
@@ -20,6 +23,7 @@ public class Order{
     private Long orderId;
 
     @Column(name = "c_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date date;
 
     @Column(name = "c_order_code")
@@ -28,12 +32,19 @@ public class Order{
     @Column(name = "c_total_pay")
     private Long totalPayable;
 
-    @Transient
-    private Customer receiver;
-
     @Column(name = "c_shipping_cost")
     private Long shippingCost;
 
     @Column(name = "c_score")
     private Integer score;
+
+    @ManyToOne
+    @JoinColumn(name = "c_customer_id")
+    private Customer customer;
+
+    @ManyToMany
+    @JoinTable(name = "tbl_order_product",
+    joinColumns = @JoinColumn(name = "c_order_id"),
+    inverseJoinColumns = @JoinColumn(name = "c_product_id"))
+    private List<Product> products;
 }

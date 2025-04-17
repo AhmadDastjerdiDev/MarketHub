@@ -5,8 +5,9 @@ import com.example.markethub1.customer.entity.Customer;
 import com.example.markethub1.customer.repository.CustomerRepo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,15 +16,18 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-    private final CustomerRepo customerRepo;
-    private final ModelMapper modelMapper;
+
+
+    private CustomerRepo customerRepo;
+
+    private ModelMapper modelMapper;
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
 
         List<Customer> customerList = new ArrayList<>();
         customerList.addAll(customerRepo.findAll());
-        return customerList.stream().map(customer -> modelMapper.map(customer,CustomerDTO.class)).collect(Collectors.toList());
+        return customerList.stream().map(customer -> modelMapper.map(customer, CustomerDTO.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -36,14 +40,13 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
         customerRepo.save(modelMapper.map(customerDTO, Customer.class));
     }
 
     @Override
-    public void updateCustomer(Long customerId, CustomerDTO customerDTO) {
+    public CustomerDTO updateCustomer(Long customerId, CustomerDTO customerDTO) {
         Optional<Customer> optionalCustomer = customerRepo.findById(customerId);
         if (optionalCustomer.isPresent()) {
             Customer updatingCustomer = optionalCustomer.get();
@@ -56,19 +59,19 @@ public class CustomerServiceImpl implements CustomerService {
             updatingCustomer.setPhoneNumber(customerDTO.getPhoneNumber());
             updatingCustomer.setPostalCode(customerDTO.getPostalCode());
             customerRepo.save(updatingCustomer);
-        }
-        else
+            return modelMapper.map(updatingCustomer, CustomerDTO.class);
+        } else {
             System.out.println("The Id Not Found!!!");
+            return null;
+        }
     }
 
     @Override
     public void deleteCustomer(Long customerId) {
         Optional<Customer> optionalCustomer = customerRepo.findById(customerId);
         if (optionalCustomer.isPresent()) {
-            Customer deletingCustomer = optionalCustomer.get();
             customerRepo.deleteById(customerId);
-        }
-        else
+        } else
             System.out.println("This Id Not Found!!!");
     }
 }
