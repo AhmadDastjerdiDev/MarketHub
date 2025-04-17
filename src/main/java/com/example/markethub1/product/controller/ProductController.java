@@ -1,4 +1,4 @@
-package com.example.markethub1.product.control;
+package com.example.markethub1.product.controller;
 
 import com.example.markethub1.product.dto.ProductDTO;
 import com.example.markethub1.product.service.ProductService;

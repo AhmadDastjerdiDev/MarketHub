@@ -1,12 +1,9 @@
-package com.example.markethub1.customer.control;
+package com.example.markethub1.customer.controller;
 
 import com.example.markethub1.customer.dto.CustomerDTO;
-import com.example.markethub1.customer.entity.Customer;
 import com.example.markethub1.customer.service.CustomerService;
-import com.example.markethub1.customer.service.CustomerServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
