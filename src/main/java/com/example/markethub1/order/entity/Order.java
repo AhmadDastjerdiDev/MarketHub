@@ -42,6 +42,9 @@ public class Order{
     @JoinColumn(name = "c_customer_id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "order")
+    @ManyToMany
+    @JoinTable(name = "tbl_order_product",
+    joinColumns = @JoinColumn(name = "c_order_id"),
+    inverseJoinColumns = @JoinColumn(name = "c_product_id"))
     private List<Product> products;
 }

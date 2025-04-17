@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,7 +34,6 @@ public class Product {
     @Column(name = "c_price")
     private Long price;
 
-    @ManyToOne
-    @JoinColumn(name = "c_order_id")
-    private Order order;
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders;
 }
