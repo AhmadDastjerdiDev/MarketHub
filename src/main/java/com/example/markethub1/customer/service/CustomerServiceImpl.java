@@ -3,10 +3,12 @@ package com.example.markethub1.customer.service;
 import com.example.markethub1.customer.dto.CustomerDTO;
 import com.example.markethub1.customer.entity.Customer;
 import com.example.markethub1.customer.repository.CustomerRepo;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,26 +20,27 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
 
 
-    private CustomerRepo customerRepo;
+    private final CustomerRepo customerRepo;
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
 
-        List<Customer> customerList = new ArrayList<>();
-        customerList.addAll(customerRepo.findAll());
-        return customerList.stream().map(customer -> modelMapper.map(customer, CustomerDTO.class)).collect(Collectors.toList());
+        List<Customer> customerList = customerRepo.findAll();
+            return customerList.stream().map(customer -> modelMapper.map(customer, CustomerDTO.class)).collect(Collectors.toList());
+
     }
 
     @Override
     public CustomerDTO getCustomerById(Long customerId) {
         Optional<Customer> optionalCustomer = customerRepo.findById(customerId);
-        if (optionalCustomer.isPresent()) {
+        if (optionalCustomer.isPresent())
             return modelMapper.map(optionalCustomer.get(), CustomerDTO.class);
-        } else {
-            return null;
-        }
+        else
+            throw new EntityNotFoundException();
+
+
     }
 
     @Override
@@ -50,19 +53,11 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> optionalCustomer = customerRepo.findById(customerId);
         if (optionalCustomer.isPresent()) {
             Customer updatingCustomer = optionalCustomer.get();
-            updatingCustomer.setFullName(customerDTO.getFullName());
-            updatingCustomer.setAddress(customerDTO.getAddress());
-            updatingCustomer.setJob(customerDTO.getJob());
-            updatingCustomer.setBirthday(customerDTO.getBirthday());
-            updatingCustomer.setSNS(customerDTO.getSNS());
-            updatingCustomer.setEmail(customerDTO.getEmail());
-            updatingCustomer.setPhoneNumber(customerDTO.getPhoneNumber());
-            updatingCustomer.setPostalCode(customerDTO.getPostalCode());
+            extractProperties(customerDTO, updatingCustomer);
             customerRepo.save(updatingCustomer);
             return modelMapper.map(updatingCustomer, CustomerDTO.class);
         } else {
-            System.out.println("The Id Not Found!!!");
-            return null;
+            throw new EntityNotFoundException();
         }
     }
 
@@ -72,6 +67,18 @@ public class CustomerServiceImpl implements CustomerService {
         if (optionalCustomer.isPresent()) {
             customerRepo.deleteById(customerId);
         } else
-            System.out.println("This Id Not Found!!!");
+            throw new EntityNotFoundException();
+    }
+
+    public void extractProperties(CustomerDTO customerDTO, Customer customer){
+        customer.setFullName(customerDTO.getFullName());
+        customer.setAddress(customerDTO.getAddress());
+        customer.setJob(customerDTO.getJob());
+        customer.setBirthday(customerDTO.getBirthday());
+        customer.setSNS(customerDTO.getSNS());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setPhoneNumber(customerDTO.getPhoneNumber());
+        customer.setPostalCode(customerDTO.getPostalCode());
+
     }
 }

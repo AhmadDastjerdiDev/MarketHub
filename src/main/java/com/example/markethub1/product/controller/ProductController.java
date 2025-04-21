@@ -24,10 +24,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
         ProductDTO productDTO = productService.getProductById(id);
-        if(productDTO != null)
-            return new ResponseEntity<>(productDTO, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(productDTO, HttpStatus.OK);
     }
 
     @PostMapping
@@ -39,21 +36,14 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO){
         ProductDTO updatingProduct = productService.updateProduct(id, productDTO);
-        if (updatingProduct != null) {
-            return new ResponseEntity<>("Product updated successfully!",HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>("Product not found!", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Product updated successfully!",HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id){
         ProductDTO deletingProductDTO = productService.getProductById(id);
-        if (deletingProductDTO != null) {
             productService.deleteProduct(id);
             return new ResponseEntity<>("Product deleted successfully!", HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>("Product not found!", HttpStatus.NOT_FOUND);
+
     }
 }

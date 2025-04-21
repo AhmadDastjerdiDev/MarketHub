@@ -3,6 +3,7 @@ package com.example.markethub1.order.service;
 import com.example.markethub1.order.dto.OrderDTO;
 import com.example.markethub1.order.entity.Order;
 import com.example.markethub1.order.repository.OrderRepo;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
-    private OrderRepo orderRepo;
-    private ModelMapper modelMapper;
+    private final OrderRepo orderRepo;
+    private final ModelMapper modelMapper;
 
     @Override
     public void saveOrder(OrderDTO orderDTO) {
@@ -35,7 +36,7 @@ public class OrderServiceImpl implements OrderService{
             return modelMapper.map(optionalOrder.get(),OrderDTO.class);
         }
         else
-            return null;
+            throw new EntityNotFoundException();
     }
 
     @Override
@@ -43,19 +44,12 @@ public class OrderServiceImpl implements OrderService{
         Optional<Order> optionalOrder = orderRepo.findById(orderId);
         if (optionalOrder.isPresent()){
             Order updatingOrder = optionalOrder.get();
-            updatingOrder.setOrderCode(orderDTO.getOrderCode());
-            updatingOrder.setDate(orderDTO.getDate());
-            updatingOrder.setScore(orderDTO.getScore());
-            //updatingOrder.setReceiver(orderDTO.getReceiver());
-            updatingOrder.setShippingCost(orderDTO.getShippingCost());
-            updatingOrder.setTotalPayable(orderDTO.getTotalPayable());
+            extractProperties(orderDTO, updatingOrder);
             orderRepo.save(updatingOrder);
             return modelMapper.map(updatingOrder, OrderDTO.class);
         }
-        else {
-            System.out.println("This Id Not Found!!!");
-            return null;
-        }
+        else
+            throw new EntityNotFoundException();
     }
 
     @Override
@@ -66,6 +60,14 @@ public class OrderServiceImpl implements OrderService{
             orderRepo.delete(deletingOrder);
         }
         else
-            System.out.println("This Id Not Found!!!");
+            throw new EntityNotFoundException();
+    }
+
+    public void extractProperties(OrderDTO orderDTO, Order order){
+        order.setOrderCode(orderDTO.getOrderCode());
+        order.setDate(orderDTO.getDate());
+        order.setScore(orderDTO.getScore());
+        order.setShippingCost(orderDTO.getShippingCost());
+        order.setTotalPayable(orderDTO.getTotalPayable());
     }
 }

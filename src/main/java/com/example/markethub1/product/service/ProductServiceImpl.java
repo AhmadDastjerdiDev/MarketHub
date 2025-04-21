@@ -3,6 +3,7 @@ package com.example.markethub1.product.service;
 import com.example.markethub1.product.dto.ProductDTO;
 import com.example.markethub1.product.entity.Product;
 import com.example.markethub1.product.repository.ProductRepo;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepo productRepo;
-    private ModelMapper modelMapper;
+    private final ProductRepo productRepo;
+    private final ModelMapper modelMapper;
 
     @Override
     public void saveProduct(ProductDTO productDTO) {
@@ -31,13 +32,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO getProductById(Long productId) {
         Optional<Product> optionalProduct = productRepo.findById(productId);
-        if (optionalProduct.isPresent()){
-            return modelMapper.map(optionalProduct.get(),ProductDTO.class);
-        }
-        else{
-            System.out.println("This Id Not Found!!!");
-            return null;
-    }
+        if (optionalProduct.isPresent()) {
+            return modelMapper.map(optionalProduct.get(), ProductDTO.class);
+        } else
+            throw new EntityNotFoundException();
     }
 
     @Override
@@ -45,15 +43,11 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> optionalProduct = productRepo.findById(productId);
         if (optionalProduct.isPresent()) {
             Product updatingProduct = optionalProduct.get();
-            updatingProduct.setProductName(productDTO.getProductName());
-            updatingProduct.setProductType(productDTO.getProductType());
-            updatingProduct.setPrice(productDTO.getPrice());
+            extractProperties(productDTO, updatingProduct);
             productRepo.save(updatingProduct);
             return modelMapper.map(updatingProduct, ProductDTO.class);
-        } else {
-            System.out.println("This Id Not Found!!!");
-            return null;
-        }
+        } else
+            throw new EntityNotFoundException();
     }
 
     @Override
@@ -62,8 +56,13 @@ public class ProductServiceImpl implements ProductService {
         if (optionalProduct.isPresent()) {
             Product deletingProduct = optionalProduct.get();
             productRepo.delete(deletingProduct);
-        }
-        else
-            System.out.println("This Id Not Found!!!");
+        } else
+            throw new EntityNotFoundException();
+    }
+
+    public void extractProperties(ProductDTO productDTO, Product product){
+        product.setProductName(productDTO.getProductName());
+        product.setProductType(productDTO.getProductType());
+        product.setPrice(productDTO.getPrice());
     }
 }
