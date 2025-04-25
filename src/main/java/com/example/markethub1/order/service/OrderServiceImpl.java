@@ -1,7 +1,11 @@
 package com.example.markethub1.order.service;
 
+import com.example.markethub1.customer.entity.Customer;
+import com.example.markethub1.customer.exceptions.CustomerAlreadyExistsException;
 import com.example.markethub1.order.dto.OrderDTO;
 import com.example.markethub1.order.entity.Order;
+import com.example.markethub1.order.exception.NoSuchOrderExistsException;
+import com.example.markethub1.order.exception.OrderAlreadyExistsException;
 import com.example.markethub1.order.repository.OrderRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +25,11 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void saveOrder(OrderDTO orderDTO) {
-        orderRepo.save(modelMapper.map(orderDTO, Order.class));
+        Optional<Order> optionalOrder = orderRepo.findById(orderDTO.getOrderId());
+        if (optionalOrder.isPresent())
+            throw new OrderAlreadyExistsException("This Order Already Exixts!");
+        else
+            orderRepo.save(modelMapper.map(orderDTO, Order.class));
     }
 
     @Override
@@ -36,7 +44,7 @@ public class OrderServiceImpl implements OrderService{
             return modelMapper.map(optionalOrder.get(),OrderDTO.class);
         }
         else
-            throw new EntityNotFoundException();
+            throw new NoSuchOrderExistsException("No Such Order Exists with this Id!");
     }
 
     @Override
@@ -49,7 +57,7 @@ public class OrderServiceImpl implements OrderService{
             return modelMapper.map(updatingOrder, OrderDTO.class);
         }
         else
-            throw new EntityNotFoundException();
+            throw new NoSuchOrderExistsException("No Such Order Exists for Update!");
     }
 
     @Override
@@ -60,7 +68,7 @@ public class OrderServiceImpl implements OrderService{
             orderRepo.delete(deletingOrder);
         }
         else
-            throw new EntityNotFoundException();
+            throw new NoSuchOrderExistsException("No Such Order Exists For Delete!");
     }
 
     public void extractProperties(OrderDTO orderDTO, Order order){

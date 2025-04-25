@@ -2,6 +2,8 @@ package com.example.markethub1.customer.service;
 
 import com.example.markethub1.customer.dto.CustomerDTO;
 import com.example.markethub1.customer.entity.Customer;
+import com.example.markethub1.customer.exceptions.CustomerAlreadyExistsException;
+import com.example.markethub1.customer.exceptions.NoSuchCustomerExistsException;
 import com.example.markethub1.customer.repository.CustomerRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,6 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     private final CustomerRepo customerRepo;
-
     private final ModelMapper modelMapper;
 
     @Override
@@ -38,14 +39,18 @@ public class CustomerServiceImpl implements CustomerService {
         if (optionalCustomer.isPresent())
             return modelMapper.map(optionalCustomer.get(), CustomerDTO.class);
         else
-            throw new EntityNotFoundException();
+            throw new NoSuchCustomerExistsException("No Such Customer Exists By This Id!");
 
 
     }
 
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
-        customerRepo.save(modelMapper.map(customerDTO, Customer.class));
+        Optional<Customer> optionalCustomer = customerRepo.findById(customerDTO.getCustomerId());
+        if (optionalCustomer.isPresent())
+            throw new CustomerAlreadyExistsException("This Customer Already Exixts!");
+        else
+            customerRepo.save(modelMapper.map(customerDTO, Customer.class));
     }
 
     @Override
@@ -57,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
             customerRepo.save(updatingCustomer);
             return modelMapper.map(updatingCustomer, CustomerDTO.class);
         } else {
-            throw new EntityNotFoundException();
+            throw new NoSuchCustomerExistsException("No Such Customer Exists For Update!");
         }
     }
 
@@ -67,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (optionalCustomer.isPresent()) {
             customerRepo.deleteById(customerId);
         } else
-            throw new EntityNotFoundException();
+            throw new NoSuchCustomerExistsException("No Such Customer Exists For Delete!");
     }
 
     public void extractProperties(CustomerDTO customerDTO, Customer customer){

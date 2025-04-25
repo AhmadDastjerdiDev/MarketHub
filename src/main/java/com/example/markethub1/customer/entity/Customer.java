@@ -10,11 +10,7 @@ import java.util.List;
 
 import java.util.Date;
 
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "tbl_customer")
 public class Customer {

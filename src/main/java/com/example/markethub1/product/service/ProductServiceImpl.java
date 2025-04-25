@@ -1,7 +1,11 @@
 package com.example.markethub1.product.service;
 
+import com.example.markethub1.customer.entity.Customer;
+import com.example.markethub1.customer.exceptions.CustomerAlreadyExistsException;
 import com.example.markethub1.product.dto.ProductDTO;
 import com.example.markethub1.product.entity.Product;
+import com.example.markethub1.product.exceptions.NoSuchProductExistsException;
+import com.example.markethub1.product.exceptions.ProductAlreadyExistsException;
 import com.example.markethub1.product.repository.ProductRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +25,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void saveProduct(ProductDTO productDTO) {
-        productRepo.save(modelMapper.map(productDTO, Product.class));
+        Optional<Product> optionalProduct = productRepo.findById(productDTO.getProductId());
+        if (optionalProduct.isPresent())
+            throw new ProductAlreadyExistsException("This Product Already Exixts!");
+        else
+            productRepo.save(modelMapper.map(productDTO, Product.class));
     }
 
     @Override
@@ -35,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
         if (optionalProduct.isPresent()) {
             return modelMapper.map(optionalProduct.get(), ProductDTO.class);
         } else
-            throw new EntityNotFoundException();
+            throw new NoSuchProductExistsException("No Such Product Exists By this Id!");
     }
 
     @Override
@@ -47,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
             productRepo.save(updatingProduct);
             return modelMapper.map(updatingProduct, ProductDTO.class);
         } else
-            throw new EntityNotFoundException();
+            throw new NoSuchProductExistsException("No Such Product Exists For Update!");
     }
 
     @Override
@@ -57,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
             Product deletingProduct = optionalProduct.get();
             productRepo.delete(deletingProduct);
         } else
-            throw new EntityNotFoundException();
+            throw new NoSuchProductExistsException("No Such Product Exists For Delete!");
     }
 
     public void extractProperties(ProductDTO productDTO, Product product){
