@@ -3,6 +3,7 @@ package com.example.markethub1.customer.entity;
 import com.example.markethub1.order.entity.Order;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -10,11 +11,7 @@ import java.util.List;
 
 import java.util.Date;
 
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "tbl_customer")
 public class Customer {
