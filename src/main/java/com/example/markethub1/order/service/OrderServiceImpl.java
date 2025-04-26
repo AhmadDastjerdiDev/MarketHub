@@ -25,11 +25,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void saveOrder(OrderDTO orderDTO) {
-        Optional<Order> optionalOrder = orderRepo.findById(orderDTO.getOrderId());
-        if (optionalOrder.isPresent())
-            throw new OrderAlreadyExistsException("This Order Already Exixts!");
-        else
-            orderRepo.save(modelMapper.map(orderDTO, Order.class));
+        Order savedOrder = modelMapper.map(orderDTO, Order.class);
+        savedOrder.setOrderId(null);
+        orderRepo.save(savedOrder);
     }
 
     @Override

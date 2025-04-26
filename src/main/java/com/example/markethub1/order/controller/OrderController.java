@@ -27,19 +27,19 @@ public class OrderController {
         return new ResponseEntity<>(orderDTO, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/addOrder")
     public ResponseEntity<String> createOrder(@RequestBody OrderDTO orderDTO) {
         orderService.saveOrder(orderDTO);
         return new ResponseEntity<>("Order created successfully!", HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateOrder/{id}")
     public ResponseEntity<String> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {
         OrderDTO updatingOrderDTO = orderService.updateOrder(id, orderDTO);
         return new ResponseEntity<>("Order updated successfully!", HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("deleteOrder/{id}")
     public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return new ResponseEntity<>("Order deleted successfully!", HttpStatus.OK);
