@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     public void saveProduct(ProductDTO productDTO) {
         Optional<Product> optionalProduct = productRepo.findById(productDTO.getProductId());
         if (optionalProduct.isPresent())
-            throw new ProductAlreadyExistsException("This Product Already Exixts!");
+            throw new ProductAlreadyExistsException("A product with this ID already exists");
         else
             productRepo.save(modelMapper.map(productDTO, Product.class));
     }

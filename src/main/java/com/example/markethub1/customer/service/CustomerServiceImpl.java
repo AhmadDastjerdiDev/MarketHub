@@ -46,11 +46,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
-        Optional<Customer> optionalCustomer = customerRepo.findById(customerDTO.getCustomerId());
-        if (optionalCustomer.isPresent())
-            throw new CustomerAlreadyExistsException("This Customer Already Exixts!");
-        else
-            customerRepo.save(modelMapper.map(customerDTO, Customer.class));
+        Customer savedCustomer = modelMapper.map(customerDTO, Customer.class);
+        savedCustomer.setCustomerId(null);    //with this snippet if the user send id by mistake I will ignore it
+            customerRepo.save(savedCustomer);
     }
 
     @Override

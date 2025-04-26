@@ -27,20 +27,20 @@ public class CustomerController {
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/addCustomer")
     public ResponseEntity<String> createCustomer(@RequestBody CustomerDTO customerDTO) {
         customerService.saveCustomer(customerDTO);
         return new ResponseEntity<>("Customer created successfully!", HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateCustomer/{id}")
     public ResponseEntity<String> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
         CustomerDTO updatedCustomerDTO = customerService.updateCustomer(id, customerDTO);
         return new ResponseEntity<>("Customer updated successfully!", HttpStatus.OK);
 
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteCustomer/{id}")
     public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
         return new ResponseEntity<>("Customer deleted successfully!", HttpStatus.OK);
