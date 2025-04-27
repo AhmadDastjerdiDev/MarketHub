@@ -46,7 +46,7 @@ public class Customer {
     private String postalCode;
 
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "receiver")
     private List<Order> orders;
 
 }

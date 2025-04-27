@@ -38,7 +38,7 @@ public class Order{
 
     @ManyToOne
     @JoinColumn(name = "c_customer_id")
-    private Customer customer;
+    private Customer receiver;
 
     @ManyToMany
     @JoinTable(name = "tbl_order_product",

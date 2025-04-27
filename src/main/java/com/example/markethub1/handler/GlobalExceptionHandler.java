@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(generalResponseDTO, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(CustomerAlreadyExistsException.class)
+    @ExceptionHandler(OrderAlreadyExistsException.class)
     public ResponseEntity<GeneralResponseDTO> handleOrderAlreadyExistsException(OrderAlreadyExistsException exception, HttpServletRequest request){
         GeneralResponseDTO generalResponseDTO = new GeneralResponseDTO(
                 HttpStatus.CONFLICT.value(),
@@ -76,7 +76,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(generalResponseDTO, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(CustomerAlreadyExistsException.class)
+    @ExceptionHandler(ProductAlreadyExistsException.class)
     public ResponseEntity<GeneralResponseDTO> handleProductAlreadyExistsException(ProductAlreadyExistsException exception, HttpServletRequest request){
         GeneralResponseDTO generalResponseDTO = new GeneralResponseDTO(
                 HttpStatus.CONFLICT.value(),
