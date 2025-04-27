@@ -2,7 +2,9 @@ package com.example.markethub1.order.entity;
 
 import com.example.markethub1.customer.entity.Customer;
 import com.example.markethub1.product.entity.Product;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -38,6 +40,7 @@ public class Order{
 
     @ManyToOne
     @JoinColumn(name = "c_customer_id")
+    @JsonManagedReference
     private Customer receiver;
 
     @ManyToMany
