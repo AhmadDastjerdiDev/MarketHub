@@ -1,5 +1,6 @@
 package com.example.markethub1.customer.entity;
 
+import com.example.markethub1.User.Entity.User;
 import com.example.markethub1.order.entity.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,7 +16,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "tbl_customer")
-public class Customer {
+public class Customer extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "c_customer_id")
